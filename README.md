@@ -15,7 +15,7 @@ Odot (inverse of "To Do") is a task management tool. It allows the organization 
 
 
 ### Downloads
-[Windows Installer](TODO)
+[Windows Installer](https://github.com/elgaspar/Odot/releases/download/v1.0.8/Odot-v1.0.8-setup.exe)
 
 
 ### License
