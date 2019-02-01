@@ -1,0 +1,107 @@
+﻿<Controls:MetroWindow x:Class="Odot.Views.DialogTaskAddEditView"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:local="clr-namespace:Odot.Views"
+                      xmlns:Converters="clr-namespace:Odot.Views.Assist.Converters"
+                      mc:Ignorable="d"
+                      xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:Cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro.Platform"
+                      Title="{Binding AddEdit, Converter={Converters:AddEditDialogTitleConverter}, ConverterParameter=Task}"
+                      TitleCaps="False"
+                      SizeToContent="WidthAndHeight"
+                      ResizeMode="NoResize"
+                      WindowStartupLocation="CenterOwner"
+                      FocusManager.FocusedElement="{Binding ElementName=Namee}"
+                      Cal:Message.Attach="[Key Escape] = [Cancel]; [Key Enter] = [Ok]">
+
+    <Controls:MetroWindow.IconTemplate>
+        <DataTemplate>
+            <local:IconContentControl DataPath="{Binding Path=DataContext.AddEdit, RelativeSource={RelativeSource FindAncestor, AncestorType=Controls:MetroWindow}, Converter={Converters:AddEditDialogIconConverter}, ConverterParameter=Task}"
+                                      ForegroundColor="{DynamicResource IdealForegroundColorBrush}"
+                                      IconWidth="18"
+                                      IconHeight="18"/>
+        </DataTemplate>
+    </Controls:MetroWindow.IconTemplate>
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <local:IconContentControl Grid.Row="0" Grid.Column="0"
+                                  DataPath="{StaticResource TaskCompletedIconPath}"
+                                  IconWidth="22"
+                                  IconHeight="22"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  Margin="5"/>
+        <TextBox Grid.Row="0" Grid.Column="1"
+                 x:Name="Namee"
+                 Controls:TextBoxHelper.Watermark="Name"
+                 Controls:TextBoxHelper.UseFloatingWatermark="True"
+                 Controls:TextBoxHelper.ClearTextButton="True"
+                 Width="300" Height="37"
+                 Margin="5" />
+
+        <local:IconContentControl Grid.Row="1" Grid.Column="0"
+                                  x:Name="iconCategories"
+                                  DataPath="{StaticResource TaskCompletedIconPath}"
+                                  IconWidth="22"
+                                  IconHeight="22"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  Margin="5"/>
+        <ComboBox Grid.Row="1" Grid.Column="1"
+                  IsEnabled="{Binding ParentVM.CategoryVM.AreThereCategories}"
+                  ItemsSource="{Binding ParentVM.CategoryVM.Categories}"
+                  SelectedItem="{Binding SelectedCategory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  Controls:TextBoxHelper.Watermark="Category"
+                  Controls:TextBoxHelper.UseFloatingWatermark="True"
+                  Controls:TextBoxHelper.ClearTextButton="True"
+                  Width="300" Height="39"
+                  Margin="5"
+                  IsEnabledChanged="ComboBox_IsEnabledChanged">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Ellipse Fill="{Binding Color, Converter={Converters:EnumToColorConverter}}"
+                                 Width="10"
+                                 Height="10"
+                                 VerticalAlignment="Center"
+                                 Margin="0,0,5,0"/>
+                        <TextBlock Text="{Binding Name}"
+                                   VerticalAlignment="Center"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0"
+                    x:Name="Ok"
+                    Content="OK"
+                    Width="85" Height="37"
+                    Margin="5" />
+            <Button Grid.Column="1"
+                    x:Name="Cancel"
+                    Content="CANCEL"
+                    Width="85" Height="37"
+                    Margin="5" />
+        </Grid>
+
+
+    </Grid>
+
+</Controls:MetroWindow>

@@ -1,0 +1,51 @@
+﻿<Controls:MetroWindow x:Class="Odot.Views.DialogErrorView"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:local="clr-namespace:Odot.Views"
+                      xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:Cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro.Platform"
+                      Title="Error"
+                      TitleCaps="False"
+                      SizeToContent="WidthAndHeight"
+                      ResizeMode="NoResize"
+                      WindowStartupLocation="CenterOwner"
+                      Cal:Message.Attach="[Key Escape] = [Ok]; [Key Enter] = [Ok]">
+
+    <Controls:MetroWindow.IconTemplate>
+        <DataTemplate>
+            <local:IconContentControl DataPath="{StaticResource DialogErrorIconPath}"
+                                      ForegroundColor="{DynamicResource IdealForegroundColorBrush}"
+                                      IconWidth="18"
+                                      IconHeight="18"/>
+        </DataTemplate>
+    </Controls:MetroWindow.IconTemplate>
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0"
+                   x:Name="Msg"
+                   FontSize="14"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Margin="10, 10, 10, 20" />
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0"
+                    x:Name="Ok"
+                    Content="OK"
+                    Width="85" Height="37"
+                    Margin="5" />
+        </Grid>
+
+    </Grid>
+    
+</Controls:MetroWindow>

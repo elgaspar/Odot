@@ -1,0 +1,77 @@
+﻿<UserControl x:Class="Odot.Views.MainToolBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Odot.Views"
+             mc:Ignorable="d"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro">
+
+    <UserControl.Resources>
+        <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
+    </UserControl.Resources>
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <ToolBarTray Grid.Column="0"
+                     IsLocked="True">
+            <ToolBar>
+
+                <local:ButtonIconText ToolTip="New File.."
+                                      IconPath="{StaticResource FileNewIconPath}"
+                                      Text="New"
+                                      Click="Button_Click_New"/>
+
+                <local:ButtonIconText ToolTip="Open File.."
+                                      IconPath="{StaticResource FileOpenIconPath}"
+                                      Text="Open"
+                                      Click="Button_Click_Open"/>
+
+                <local:ButtonIconText ToolTip="Save File.."
+                                      IconPath="{StaticResource FileSaveIconPath}"
+                                      Text="Save"
+                                      Click="Button_Click_Save"/>
+
+                <local:ButtonIconText ToolTip="Save File As.."
+                                      IconPath="{StaticResource FileSaveAsIconPath}"
+                                      Text="Save As"
+                                      Click="Button_Click_SaveAs"/>
+
+
+                <local:PrintButton Margin="0,0,0,-12">
+                    <Controls:DropDownButton.Items>
+                        <MenuItem Header="All Tasks"
+                                  Click="MenuItem_Click_PrintAll"/>
+                        <MenuItem Header="Incomplete Tasks"
+                                  Click="MenuItem_Click_PrintIncomplete"/>
+                    </Controls:DropDownButton.Items>
+                </local:PrintButton>
+
+            </ToolBar>
+        </ToolBarTray>
+
+        <ToolBarTray Grid.Column="1"
+                     IsLocked="True"
+                     Margin="50,0,0,0">
+            <ToolBar>
+
+                <local:ButtonIconText ToolTip="Settings.."
+                                      IconPath="{StaticResource SettingsIconPath}"
+                                      Text="Settings"
+                                      Click="Button_Click_Settings"/>
+
+                <local:ButtonIconText ToolTip="About.."
+                                      IconPath="{StaticResource AboutIconPath}"
+                                      Text="About"
+                                      Click="Button_Click_About"/>
+                
+            </ToolBar>
+        </ToolBarTray>
+
+
+    </Grid>
+</UserControl>

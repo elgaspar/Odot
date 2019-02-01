@@ -1,0 +1,27 @@
+﻿<ContentControl x:Name="ct"
+                x:Class="Odot.Views.IconContentControl"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                xmlns:local="clr-namespace:Odot.Views"
+                mc:Ignorable="d"
+                IsEnabledChanged="ct_IsEnabledChanged">
+
+    <ContentControl.Template>
+        <ControlTemplate>
+            <Viewbox Width="{Binding ElementName=ct, Path=IconWidth}"
+                     Height="{Binding ElementName=ct, Path=IconHeight}">
+                <Canvas Width="{Binding ElementName=ct, Path=IconWidth}"
+                        Height="{Binding ElementName=ct, Path=IconHeight}">
+                    <Path Data="{Binding ElementName=ct, Path=DataPath}"
+                          Fill="{Binding ElementName=ct, Path=ForegroundColor}"
+                          Width="{Binding ElementName=ct, Path=IconWidth}"
+                          Height="{Binding ElementName=ct, Path=IconHeight}"
+                          Stretch="Uniform"/>
+                </Canvas>
+            </Viewbox>
+        </ControlTemplate>
+    </ContentControl.Template>
+
+</ContentControl>

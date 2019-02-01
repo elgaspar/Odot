@@ -1,0 +1,43 @@
+﻿<ToolBarTray x:Class="Odot.Views.CategoryToolBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Odot.Views"
+             mc:Ignorable="d"
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:Cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro.Platform"
+             IsLocked="True"
+             Background="{DynamicResource WindowBackgroundBrush}">
+
+    <ToolBar>
+
+        <Button ToolTip="Add Category.."
+                Style="{StaticResource ToolBarButtonBaseStyle}"
+                Click="Button_Click_Add">
+            <local:IconContentControl DataPath="{StaticResource CategoryAddIconPath}"
+                                      IconWidth="20"
+                                      IconHeight="20"/>
+        </Button>
+
+        <Button ToolTip="Edit Category.."
+                Style="{StaticResource ToolBarButtonBaseStyle}"
+                IsEnabled="{Binding IsCategorySelected}"
+                Click="Button_Click_Edit">
+            <local:IconContentControl DataPath="{StaticResource CategoryEditIconPath}"
+                                      IconWidth="20"
+                                      IconHeight="20"/>
+        </Button>
+
+        <Button ToolTip="Remove Category.."
+                Style="{StaticResource ToolBarButtonBaseStyle}"
+                IsEnabled="{Binding IsCategorySelected}"
+                Click="Button_Click_Remove">
+            <local:IconContentControl DataPath="{StaticResource CategoryRemoveIconPath}"
+                                      IconWidth="20"
+                                      IconHeight="20"/>
+        </Button>
+
+    </ToolBar>
+    
+</ToolBarTray>

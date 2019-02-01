@@ -1,0 +1,104 @@
+﻿<UserControl x:Class="Odot.Views.LibrariesTable"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Odot.Views"
+             mc:Ignorable="d"
+             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:Cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro.Platform">
+
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="30"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+
+        <TextBlock Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4"
+                       Text="Third-party libraries/components used:"
+                       HorizontalAlignment="Left"
+                       Margin="5" />
+
+
+        <TextBlock Grid.Row="1" Grid.Column="1"
+                       Text="Caliburn.Micro"/>
+
+        <local:HyperlinkButton Grid.Row="1" Grid.Column="3"
+                               Cal:Message.Attach="ShowCaliburnMicroLicense"
+                               Text="License"/>
+
+
+        <TextBlock Grid.Row="2" Grid.Column="1"
+                       Text="MahApps.Metro"/>
+
+        <local:HyperlinkButton Grid.Row="2" Grid.Column="3"
+                               Cal:Message.Attach="ShowMahAppsMetroLicense"
+                               Text="License"/>
+
+        
+        <TextBlock Grid.Row="3" Grid.Column="1"
+                       Text="ControlzEx"/>
+
+        <local:HyperlinkButton Grid.Row="3" Grid.Column="3"
+                               Cal:Message.Attach="ShowControlzExLicense"
+                               Text="License"/>
+
+        
+        <TextBlock Grid.Row="4" Grid.Column="1"
+                       Text="gong-wpf-dragdrop"/>
+
+        <local:HyperlinkButton Grid.Row="4" Grid.Column="3"
+                               Cal:Message.Attach="ShowGongWpfDragdropLicense"
+                               Text="License"/>
+
+        
+        <TextBlock Grid.Row="5" Grid.Column="1"
+                       Text="IPrint"/>
+
+        <local:HyperlinkButton Grid.Row="5" Grid.Column="3"
+                               Cal:Message.Attach="ShowIPrintLicense"
+                               Text="License"/>
+
+
+        <TextBlock Grid.Row="6" Grid.Column="1"
+                       Text="Material Design Google Icons"/>
+
+        <local:HyperlinkButton Grid.Row="6" Grid.Column="3"
+                               Cal:Message.Attach="ShowMaterialDesighGoogleIconsLicense"
+                               Text="License"/>
+
+        
+        <TextBlock Grid.Row="7" Grid.Column="1"
+                       Text="Material Design Community Icons"/>
+
+        <local:HyperlinkButton Grid.Row="7" Grid.Column="3"
+                               Cal:Message.Attach="ShowMaterialDesighCommunityIconsLicense"
+                               Text="License"/>
+
+        
+        <TextBlock Grid.Row="8" Grid.Column="1"
+                       Text="Modern UI Icons"/>
+
+        <local:HyperlinkButton Grid.Row="8" Grid.Column="3"
+                               Cal:Message.Attach="ShowModernUIIconsLicense"
+                               Text="License"/>
+
+    </Grid>
+
+
+</UserControl>

@@ -1,0 +1,105 @@
+﻿<Controls:MetroWindow x:Class="Odot.Views.DialogAboutView"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:local="clr-namespace:Odot.Views"
+                      mc:Ignorable="d"
+                      xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+                      xmlns:Cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro.Platform"
+                      Title="About"
+                      TitleCaps="False"
+                      SizeToContent="WidthAndHeight"
+                      ResizeMode="NoResize"
+                      WindowStartupLocation="CenterOwner"
+                      Cal:Message.Attach="[Key Escape] = [Ok]; [Key Enter] = [Ok]">
+
+    <Controls:MetroWindow.IconTemplate>
+        <DataTemplate>
+            <local:IconContentControl DataPath="{StaticResource AboutIconPath}"
+                                      ForegroundColor="{DynamicResource IdealForegroundColorBrush}"
+                                      IconWidth="18"
+                                      IconHeight="18"/>
+        </DataTemplate>
+    </Controls:MetroWindow.IconTemplate>
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        
+
+        <StackPanel Grid.Row="0"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Center">
+
+            <Image Source="{StaticResource MainIconPath}"
+                   Width="65"
+                   Height="65"/>
+            
+            <StackPanel>
+                <TextBlock Text="Odot"
+                           FontSize="20"
+                           FontWeight="Bold"
+                           Margin="5"/>
+                <TextBlock x:Name="Version"
+                           FontStyle="Italic"
+                           FontWeight="Bold"
+                           HorizontalAlignment="Center"
+                           Margin="5"/>
+            </StackPanel>
+
+        </StackPanel>
+
+
+        <TextBlock Grid.Row="1"
+                   Text="Copyright © 2018-2019 Elias Gasparis"
+                   FontSize="16"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   Margin="5" />
+
+        
+        <local:HyperlinkButton Grid.Row="2"
+                               x:Name="VisitMySite"
+                               Text="www.elgaspar.com"
+                               HorizontalAlignment="Center"
+                               Margin="5"/>
+
+        
+        <StackPanel Grid.Row="4"
+                    Orientation="Horizontal"
+                    Margin="5">
+            <TextBlock Text="This program is licensed under the "/>
+            <local:HyperlinkButton x:Name="ShowMyLicense"
+                                   Text="MIT License"/>
+            <TextBlock Text="."/>
+        </StackPanel>
+
+
+        <local:LibrariesTable Grid.Row="6"/>
+
+
+        <Grid Grid.Row="8" Grid.Column="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0"
+                    x:Name="Ok"
+                    Content="OK"
+                    Width="85" Height="37"
+                    Margin="5" />
+        </Grid>
+
+    </Grid>
+    
+</Controls:MetroWindow>

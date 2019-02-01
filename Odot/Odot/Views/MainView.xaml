@@ -1,0 +1,53 @@
+﻿<Controls:MetroWindow x:Class="Odot.Views.MainView"
+                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                      xmlns:local="clr-namespace:Odot.Views"
+                      mc:Ignorable="d"
+                      xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                      Title="Odot"
+                      TitleCaps="False"
+                      Height="500" Width="700"
+                      MinWidth="550"
+                      SaveWindowPosition="True"
+                      WindowStartupLocation="CenterScreen"
+                      Loaded="MetroWindow_Loaded"
+                      Closing="MetroWindow_Closing">
+
+    <Controls:MetroWindow.IconTemplate>
+        <DataTemplate>
+            <Image Source="{StaticResource MainIconPath}"
+                   Margin="3"/>
+        </DataTemplate>
+    </Controls:MetroWindow.IconTemplate>
+
+
+    <DockPanel>
+
+        <local:MainToolBar DockPanel.Dock="Top"/>
+
+        <local:MyStatusBar DockPanel.Dock="Bottom"
+                           x:Name="statusBar"
+                           VerticalAlignment="Bottom"/>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*" MinWidth="370"/>
+                <ColumnDefinition Width="3"/>
+                <ColumnDefinition Width="*" MinWidth="150"/>
+            </Grid.ColumnDefinitions>
+
+            <local:TaskView Grid.Column="0"
+                            DataContext="{Binding TaskVM}"/>
+
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"  />
+
+            <local:CategoryView Grid.Column="2"
+                              DataContext="{Binding CategoryVM}"/>
+
+        </Grid>
+
+    </DockPanel>
+
+</Controls:MetroWindow>
