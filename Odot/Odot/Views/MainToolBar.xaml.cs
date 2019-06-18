@@ -55,5 +55,15 @@ namespace Odot.Views
         {
             Actions.About();
         }
+
+        private void MenuItem_Click_PDF_ExportAll(object sender, RoutedEventArgs e)
+        {
+            Actions.PDFExportAll();
+        }
+
+        private void MenuItem_Click_PDF_ExportIncomplete(object sender, RoutedEventArgs e)
+        {
+            Actions.PDFExportIncomplete();
+        }
     }
 }

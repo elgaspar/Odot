@@ -79,7 +79,19 @@ namespace Odot.Views.Assist
             Dialogs.PrintDialog(printDoc.CreateWithIncompleteOnly(mainVM.File.Tasks));
         }
 
+        public static void PDFExportAll()
+        {
+            MessageBox.Show("pdf export all");
+            //PrintDocument printDoc = new PrintDocument();
+            //Dialogs.PrintDialog(printDoc.Create(mainVM.File.Tasks));
+        }
 
+        public static void PDFExportIncomplete()
+        {
+            MessageBox.Show("pdf export incomplete");
+            //PrintDocument printDoc = new PrintDocument(true);
+            //Dialogs.PrintDialog(printDoc.CreateWithIncompleteOnly(mainVM.File.Tasks));
+        }
 
         public static void Settings()
         {

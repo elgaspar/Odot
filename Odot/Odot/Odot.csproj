@@ -127,6 +127,9 @@
     <Compile Include="Views\CategoryView.xaml.cs">
       <DependentUpon>CategoryView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ExportButton.xaml.cs">
+      <DependentUpon>ExportButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\HyperlinkButton.xaml.cs">
       <DependentUpon>HyperlinkButton.xaml</DependentUpon>
     </Compile>
@@ -215,6 +218,10 @@
     <Page Include="Views\CategoryView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ExportButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\HyperlinkButton.xaml">
       <SubType>Designer</SubType>
