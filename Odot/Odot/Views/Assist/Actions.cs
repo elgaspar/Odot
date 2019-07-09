@@ -1,5 +1,11 @@
 ﻿using Odot.ViewModels;
+using PdfSharp.Pdf;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
 using System.Windows;
+using System.Windows.Documents;
+using System.Windows.Markup;
 
 namespace Odot.Views.Assist
 {
@@ -55,7 +61,7 @@ namespace Odot.Views.Assist
 
         public static bool FileSaveAs()
         {
-            string filepath = Dialogs.BrowseFileToSave();
+            string filepath = Dialogs.BrowseFileToSave(Dialogs.XML_FILE_EXTENSION, Dialogs.XML_FILE_FILTER);
             if (filepath != null)
             {
                 bool succeed = mainVM.Save(filepath);
@@ -76,21 +82,17 @@ namespace Odot.Views.Assist
         public static void PrintIncomplete()
         {
             PrintDocument printDoc = new PrintDocument(true);
-            Dialogs.PrintDialog(printDoc.CreateWithIncompleteOnly(mainVM.File.Tasks));
+            Dialogs.PrintDialog(printDoc.Create(getIncompleteOnly(mainVM.File.Tasks)));
         }
 
         public static void PDFExportAll()
         {
-            MessageBox.Show("pdf export all");
-            //PrintDocument printDoc = new PrintDocument();
-            //Dialogs.PrintDialog(printDoc.Create(mainVM.File.Tasks));
+            exportPdf(mainVM.File.Tasks);
         }
 
         public static void PDFExportIncomplete()
         {
-            MessageBox.Show("pdf export incomplete");
-            //PrintDocument printDoc = new PrintDocument(true);
-            //Dialogs.PrintDialog(printDoc.CreateWithIncompleteOnly(mainVM.File.Tasks));
+            exportPdf(getIncompleteOnly(mainVM.File.Tasks));
         }
 
         public static void Settings()
@@ -232,5 +234,45 @@ namespace Odot.Views.Assist
             return true;
         }
 
+        private static ObservableCollection<Models.Task> getIncompleteOnly(ObservableCollection<Models.Task> tasks)
+        {
+            ObservableCollection<Models.Task> incompleteTasks = new ObservableCollection<Models.Task>();
+            foreach (Models.Task task in tasks)
+            {
+                ObservableCollection<Models.Task> children = getIncompleteOnly(task.Children);
+                if (task.IsCompleted == false || children.Count != 0)
+                {
+                    Models.Task t = task.Clone();
+                    foreach (Models.Task child in children)
+                        t.AddChild(child);
+                    incompleteTasks.Add(t);
+                }
+            }
+            return incompleteTasks;
+        }
+
+        private static void exportPdf(ObservableCollection<Models.Task> tasks)
+        {
+            string filepath = Dialogs.BrowseFileToSave(Dialogs.PDF_FILE_EXTENSION, Dialogs.PDF_FILE_FILTER);
+            if (filepath != null)
+            {
+                bool succeed = true;
+
+                try
+                {
+                    PdfCreator creator = new PdfCreator();
+                    PdfDocument document = creator.Create(tasks);
+                    document.Save(filepath);
+                    Process.Start(filepath);
+                }
+                catch (System.Exception ex)
+                {
+                    // failed to save pdf
+                    succeed = false;
+                }
+
+                handleSaveResult(succeed);
+            }
+        }
     }
 }
