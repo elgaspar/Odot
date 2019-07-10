@@ -7,6 +7,7 @@ using PdfSharp.Pdf;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -19,9 +20,11 @@ namespace Odot.Views.Assist
 {
     public class PdfCreator
     {
-        private static readonly int ICON_SIZE = 14;
         private static readonly int PAGE_MARGIN = 20;
         private static readonly string FONT_NAME = "Times New Roman";
+        private static readonly double ICON_SIZE_PERCENTAGE = 0.75;
+        private static readonly double TASK_COLUMN_WIDTH_PERCENTAGE = 0.75;
+        private static readonly double CATEGORY_COLUMN_WIDTH_PERCENTAGE = 0.25;
 
         private System.Windows.Thickness IconMargin
         {
@@ -33,7 +36,6 @@ namespace Odot.Views.Assist
 
         public PdfDocument Create(ObservableCollection<Models.Task> tasks)
         {
-            // todo - smaller icons
             // todo - busy indicator
             var document = new Document();
             Section section = document.AddSection();
@@ -55,8 +57,8 @@ namespace Odot.Views.Assist
         {
             var table = section.AddTable();
             float sectionWidth = section.PageSetup.PageWidth - section.PageSetup.LeftMargin - section.PageSetup.RightMargin;
-            double taskColumnWidth = sectionWidth * .75;
-            double categoryColumnWidth = sectionWidth * .25;
+            double taskColumnWidth = sectionWidth * TASK_COLUMN_WIDTH_PERCENTAGE;
+            double categoryColumnWidth = sectionWidth * CATEGORY_COLUMN_WIDTH_PERCENTAGE;
 
             table.Style = "Table";
             table.Borders.Width = 0.25;
@@ -161,7 +163,7 @@ namespace Odot.Views.Assist
             if (task.IsCompleted)
                 iconPath = System.Windows.Application.Current.TryFindResource("TaskCompletedIconPath") as string;
 
-            return getImageBytes(createImage(iconPath, color).Source as DrawingImage);
+            return getImageBytes(createImageSource(iconPath, color) as DrawingImage);
         }
 
         private byte[] getIconCategory(Models.Category category)
@@ -172,7 +174,7 @@ namespace Odot.Views.Assist
             Brush color = EnumToColorConverter.EnumToColor(enumColor);
 
             string iconPath = System.Windows.Application.Current.TryFindResource("TaskIncompleteIconPath") as string;
-            return getImageBytes(createImage(iconPath, color).Source as DrawingImage);
+            return getImageBytes(createImageSource(iconPath, color) as DrawingImage);
         }
 
         private byte[] getImageBytes(DrawingImage drawingImage)
@@ -183,29 +185,34 @@ namespace Odot.Views.Assist
                 dc.DrawDrawing(drawingImage.Drawing);
                 dc.Close();
             }
-            RenderTargetBitmap target = new RenderTargetBitmap((int)visual.Drawing.Bounds.Right, (int)visual.Drawing.Bounds.Bottom, 96.0, 96.0, PixelFormats.Pbgra32);
+
+            int fullWidth = (int)visual.Drawing.Bounds.Right;
+            int fullHeight = (int)visual.Drawing.Bounds.Bottom;
+            RenderTargetBitmap target = new RenderTargetBitmap(fullWidth, fullHeight, 96.0, 96.0, PixelFormats.Pbgra32);
             target.Render(visual);
 
-            using (MemoryStream stream = new MemoryStream())
+            using (MemoryStream fullStream = new MemoryStream())
             {
                 BitmapEncoder encoder = new PngBitmapEncoder();
                 encoder.Frames.Add(BitmapFrame.Create(target));
-                encoder.Save(stream);
-
-                return stream.ToArray();
+                encoder.Save(fullStream);
+                using (MemoryStream reducedStream = new MemoryStream())
+                {
+                    resizeBitmap(new System.Drawing.Bitmap(fullStream), (int)(fullWidth * ICON_SIZE_PERCENTAGE), (int)(fullHeight * ICON_SIZE_PERCENTAGE)).Save(reducedStream, ImageFormat.Png);
+                    return reducedStream.ToArray();
+                }
             }
         }
 
-        private Image createImage(string iconPath, Brush color)
+        private System.Drawing.Bitmap resizeBitmap(System.Drawing.Bitmap bmp, int width, int height)
         {
-            Image img = new Image
+            System.Drawing.Bitmap result = new System.Drawing.Bitmap(width, height);
+            using (System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(result))
             {
-                Source = createImageSource(iconPath, color),
-                Width = ICON_SIZE,
-                Height = ICON_SIZE,
-                Margin = IconMargin
-            };
-            return img;
+                g.DrawImage(bmp, 0, 0, width, height);
+            }
+
+            return result;
         }
 
         private ImageSource createImageSource(string iconPath, Brush color)
@@ -217,8 +224,9 @@ namespace Odot.Views.Assist
                 Brush = color,
                 Pen = new Pen(Brushes.White, 0.25)
             };
-
+            
             DrawingImage img = new DrawingImage(drawing);
+           
             img.Freeze();
 
             return img;
