@@ -1,4 +1,6 @@
-﻿using Odot.Views.Assist;
+﻿using MahApps.Metro.Controls;
+using Odot.Views.Assist;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -56,14 +58,14 @@ namespace Odot.Views
             Actions.About();
         }
 
-        private void MenuItem_Click_PDF_ExportAll(object sender, RoutedEventArgs e)
+        private async void MenuItem_Click_PDF_ExportAll(object sender, RoutedEventArgs e)
         {
-            Actions.PDFExportAll();
+            await Actions.PDFExportAll();
         }
 
-        private void MenuItem_Click_PDF_ExportIncomplete(object sender, RoutedEventArgs e)
+        private async void MenuItem_Click_PDF_ExportIncomplete(object sender, RoutedEventArgs e)
         {
-            Actions.PDFExportIncomplete();
+            await Actions.PDFExportIncomplete();
         }
     }
 }

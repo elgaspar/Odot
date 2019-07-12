@@ -13,6 +13,7 @@ namespace Odot.Views.Assist
         public static readonly string XML_FILE_FILTER = "XML files (*.xml)|*.xml";
         public static readonly string PDF_FILE_EXTENSION = ".pdf";
         public static readonly string PDF_FILE_FILTER = "PDF files (*.pdf)|*.pdf";
+        public static readonly string PROGRESS_TITLE = "Please wait...";
         private static readonly string CONFIRM_TASK_REMOVE_MSG = "This action will delete the selected\ntask and all its sub-tasks.\nAre you sure you want to continue?";
         private static readonly string CONFIRM_CATEGORY_REMOVE_MSG = "This action will delete the selected\ncategory. Are you sure you want to continue?";
         private static readonly string CONFIRM_PROMPT_FOR_SAVE_MSG = "Do you want to save changes to file?";

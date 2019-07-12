@@ -1,16 +1,21 @@
-﻿using Odot.ViewModels;
+﻿using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
+using Odot.ViewModels;
 using PdfSharp.Pdf;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Markup;
+using System.Windows.Threading;
 
 namespace Odot.Views.Assist
 {
     public static class Actions
     {
+        private static readonly string EXPORT_MSG = "Exporting tasks.";
         private static MainViewModel mainVM { get { return (MainViewModel)Application.Current.MainWindow.DataContext; } }
         private static MainView mainWin { get { return (MainView)Application.Current.MainWindow; } }
 
@@ -85,14 +90,30 @@ namespace Odot.Views.Assist
             Dialogs.PrintDialog(printDoc.Create(getIncompleteOnly(mainVM.File.Tasks)));
         }
 
-        public static void PDFExportAll()
+        public static async Task PDFExportAll()
         {
-            exportPdf(mainVM.File.Tasks);
+            string filepath = Dialogs.BrowseFileToSave(Dialogs.PDF_FILE_EXTENSION, Dialogs.PDF_FILE_FILTER);
+            if (!string.IsNullOrEmpty(filepath))
+            {
+                var tasks = mainVM.File.Tasks;
+                var controller = await ((MetroWindow)mainWin).ShowProgressAsync(Dialogs.PROGRESS_TITLE, EXPORT_MSG, true);
+                var result = await Task.Run(() => exportPdf(tasks, filepath));
+                await controller.CloseAsync();
+                handleSaveResult(result);
+            }
         }
 
-        public static void PDFExportIncomplete()
+        public static async Task PDFExportIncomplete()
         {
-            exportPdf(getIncompleteOnly(mainVM.File.Tasks));
+            string filepath = Dialogs.BrowseFileToSave(Dialogs.PDF_FILE_EXTENSION, Dialogs.PDF_FILE_FILTER);
+            if (!string.IsNullOrEmpty(filepath))
+            {
+                var tasks = mainVM.File.Tasks;
+                var controller = await ((MetroWindow)mainWin).ShowProgressAsync(Dialogs.PROGRESS_TITLE, EXPORT_MSG, true);
+                var result = await Task.Run(() => exportPdf(getIncompleteOnly(tasks), filepath));
+                await controller.CloseAsync();
+                handleSaveResult(result);
+            }
         }
 
         public static void Settings()
@@ -251,12 +272,12 @@ namespace Odot.Views.Assist
             return incompleteTasks;
         }
 
-        private static void exportPdf(ObservableCollection<Models.Task> tasks)
+        private static bool exportPdf(ObservableCollection<Models.Task> tasks, string filepath)
         {
-            string filepath = Dialogs.BrowseFileToSave(Dialogs.PDF_FILE_EXTENSION, Dialogs.PDF_FILE_FILTER);
+            bool succeed = false;
             if (filepath != null)
             {
-                bool succeed = true;
+                succeed = true;
 
                 try
                 {
@@ -270,9 +291,9 @@ namespace Odot.Views.Assist
                     // failed to save pdf
                     succeed = false;
                 }
-
-                handleSaveResult(succeed);
             }
+
+            return succeed;
         }
     }
 }

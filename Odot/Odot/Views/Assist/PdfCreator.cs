@@ -36,7 +36,6 @@ namespace Odot.Views.Assist
 
         public PdfDocument Create(ObservableCollection<Models.Task> tasks)
         {
-            // todo - busy indicator
             var document = new Document();
             Section section = document.AddSection();
             section.PageSetup = document.DefaultPageSetup.Clone();
