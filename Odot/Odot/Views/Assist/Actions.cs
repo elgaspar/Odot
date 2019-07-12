@@ -2,9 +2,11 @@
 using MahApps.Metro.Controls.Dialogs;
 using Odot.ViewModels;
 using PdfSharp.Pdf;
+using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
@@ -92,26 +94,42 @@ namespace Odot.Views.Assist
 
         public static async Task PDFExportAll()
         {
+            var tokenSource = new CancellationTokenSource();
+            var token = tokenSource.Token;
+            EventHandler canceledHandler = delegate { tokenSource.Cancel(); };
             string filepath = Dialogs.BrowseFileToSave(Dialogs.PDF_FILE_EXTENSION, Dialogs.PDF_FILE_FILTER);
             if (!string.IsNullOrEmpty(filepath))
             {
                 var tasks = mainVM.File.Tasks;
                 var controller = await ((MetroWindow)mainWin).ShowProgressAsync(Dialogs.PROGRESS_TITLE, EXPORT_MSG, true);
-                var result = await Task.Run(() => exportPdf(tasks, filepath));
+                controller.Canceled += canceledHandler;
+                var result = await Task.Run(() => exportPdf(tasks, filepath, token));
                 await controller.CloseAsync();
+                if (controller.IsCanceled)
+                    result = false;
+
+                controller.Canceled -= canceledHandler;
                 handleSaveResult(result);
             }
         }
 
         public static async Task PDFExportIncomplete()
         {
+            var tokenSource = new CancellationTokenSource();
+            var token = tokenSource.Token;
+            EventHandler canceledHandler = delegate { tokenSource.Cancel(); };
             string filepath = Dialogs.BrowseFileToSave(Dialogs.PDF_FILE_EXTENSION, Dialogs.PDF_FILE_FILTER);
             if (!string.IsNullOrEmpty(filepath))
             {
                 var tasks = mainVM.File.Tasks;
                 var controller = await ((MetroWindow)mainWin).ShowProgressAsync(Dialogs.PROGRESS_TITLE, EXPORT_MSG, true);
-                var result = await Task.Run(() => exportPdf(getIncompleteOnly(tasks), filepath));
+                controller.Canceled += canceledHandler;
+                var result = await Task.Run(() => exportPdf(getIncompleteOnly(tasks), filepath, token));
                 await controller.CloseAsync();
+                if (controller.IsCanceled)
+                    result = false;
+
+                controller.Canceled -= canceledHandler;
                 handleSaveResult(result);
             }
         }
@@ -272,7 +290,7 @@ namespace Odot.Views.Assist
             return incompleteTasks;
         }
 
-        private static bool exportPdf(ObservableCollection<Models.Task> tasks, string filepath)
+        private static bool exportPdf(ObservableCollection<Models.Task> tasks, string filepath, CancellationToken token)
         {
             bool succeed = false;
             if (filepath != null)
@@ -282,7 +300,8 @@ namespace Odot.Views.Assist
                 try
                 {
                     PdfCreator creator = new PdfCreator();
-                    PdfDocument document = creator.Create(tasks);
+                    PdfDocument document = creator.Create(tasks, token);
+                    token.ThrowIfCancellationRequested();
                     document.Save(filepath);
                     Process.Start(filepath);
                 }

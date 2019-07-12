@@ -11,6 +11,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -34,7 +35,7 @@ namespace Odot.Views.Assist
             }
         }
 
-        public PdfDocument Create(ObservableCollection<Models.Task> tasks)
+        public PdfDocument Create(ObservableCollection<Models.Task> tasks, CancellationToken token)
         {
             var document = new Document();
             Section section = document.AddSection();
@@ -44,7 +45,7 @@ namespace Odot.Views.Assist
             section.PageSetup.RightMargin = PAGE_MARGIN;
             section.PageSetup.BottomMargin = PAGE_MARGIN;
 
-            addTable(section, tasks);
+            addTable(section, tasks, token);
 
             PdfDocumentRenderer renderer = new PdfDocumentRenderer(true);
             renderer.Document = document;
@@ -52,7 +53,7 @@ namespace Odot.Views.Assist
             return renderer.PdfDocument;
         }
 
-        private void addTable(Section section, ObservableCollection<Models.Task> tasks)
+        private void addTable(Section section, ObservableCollection<Models.Task> tasks, CancellationToken token)
         {
             var table = section.AddTable();
             float sectionWidth = section.PageSetup.PageWidth - section.PageSetup.LeftMargin - section.PageSetup.RightMargin;
@@ -75,7 +76,7 @@ namespace Odot.Views.Assist
             column.Format.Alignment = ParagraphAlignment.Right;
 
             addHeader(table);
-            addBody(tasks, table);
+            addBody(tasks, table, token);
         }
 
         private void addHeader(Table table)
@@ -96,20 +97,21 @@ namespace Odot.Views.Assist
             table.SetEdge(0, 0, 2, 1, Edge.Box, BorderStyle.Single, 0.75, MigraDoc.DocumentObjectModel.Color.Empty);
         }
 
-        private void addBody(ObservableCollection<Models.Task> tasks, Table table)
+        private void addBody(ObservableCollection<Models.Task> tasks, Table table, CancellationToken token)
         {
             int taskCount = 0;
-            addTaskRows(ref taskCount, tasks, table);
+            addTaskRows(ref taskCount, tasks, table, token);
         }
 
-        private void addTaskRows(ref int taskCount, ObservableCollection<Models.Task> tasks, Table table, int indent = 0)
+        private void addTaskRows(ref int taskCount, ObservableCollection<Models.Task> tasks, Table table, CancellationToken token, int indent = 0)
         {
             foreach (var task in tasks)
             {
+                token.ThrowIfCancellationRequested();
                 addTaskRow(ref taskCount, task, table, indent);
 
                 if (task.Children.Count > 0)
-                    addTaskRows(ref taskCount, task.Children, table, indent + 1);
+                    addTaskRows(ref taskCount, task.Children, table, token, indent + 1);
             }
         }
 
