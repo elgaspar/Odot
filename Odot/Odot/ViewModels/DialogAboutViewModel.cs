@@ -4,7 +4,7 @@ namespace Odot.ViewModels
 {
     class DialogAboutViewModel : DialogViewModelBase
     {
-        private const string VersionNo = "1.0.8";
+        private const string VersionNo = "1.1.0";
 
         private const string MY_SITE_URL = @"http://www.elgaspar.com";
         private const string LICENSE_ODOT = @"Resources\LICENSE Odot.txt";
@@ -17,6 +17,8 @@ namespace Odot.ViewModels
         private const string LICENSE_MATERIAL_DESIGN_GOOGLE_ICONS = @"Resources\third-party licenses\LICENSE Material Design Google Icons.txt";
         private const string LICENSE_MATERIAL_DESIGN_COMMUNITY_ICONS = @"Resources\third-party licenses\LICENSE Material Design Community Icons.txt";
         private const string LICENSE_MODERN_UI_ICONS = @"Resources\third-party licenses\LICENSE Modern UI Icons.txt";
+        private const string LICENSE_PDF_SHARP = @"Resources\third-party licenses\LICENSE PDFsharp.txt";
+        private const string LICENSE_MIGRA_DOC = @"Resources\third-party licenses\LICENSE PDFsharp-MigraDoc.txt";
 
 
 
@@ -70,6 +72,16 @@ namespace Odot.ViewModels
         public void ShowModernUIIconsLicense()
         {
             Process.Start(LICENSE_MODERN_UI_ICONS);
+        }
+
+        public void ShowPDFsharpLicense()
+        {
+            Process.Start(LICENSE_PDF_SHARP);
+        }
+
+        public void ShowMigraDocLicense()
+        {
+            Process.Start(LICENSE_MIGRA_DOC);
         }
 
         public void Ok()

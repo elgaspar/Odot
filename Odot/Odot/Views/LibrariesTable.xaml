@@ -20,6 +20,8 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="30"/>
@@ -96,6 +98,20 @@
 
         <local:HyperlinkButton Grid.Row="8" Grid.Column="3"
                                Cal:Message.Attach="ShowModernUIIconsLicense"
+                               Text="License"/>
+
+        <TextBlock Grid.Row="9" Grid.Column="1"
+                       Text="PDFsharp"/>
+
+        <local:HyperlinkButton Grid.Row="9" Grid.Column="3"
+                               Cal:Message.Attach="ShowPDFsharpLicense"
+                               Text="License"/>
+
+        <TextBlock Grid.Row="10" Grid.Column="1"
+                       Text="PDFsharp-MigraDoc"/>
+
+        <local:HyperlinkButton Grid.Row="10" Grid.Column="3"
+                               Cal:Message.Attach="ShowMigraDocLicense"
                                Text="License"/>
 
     </Grid>

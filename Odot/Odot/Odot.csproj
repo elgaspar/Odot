@@ -340,10 +340,14 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\third-party licenses\LICENSE PDFsharp.txt" />
+    <EmbeddedResource Include="Resources\third-party licenses\LICENSE PDFsharp-MigraDoc.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\third-party licenses\LICENSE MigraDoc.txt" />
+    <EmbeddedResource Include="Resources\third-party licenses\LICENSE PDFsharp.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
