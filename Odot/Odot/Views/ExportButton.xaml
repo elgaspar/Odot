@@ -1,0 +1,25 @@
+﻿<Controls:DropDownButton x:Class="Odot.Views.ExportButton"
+                         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                         xmlns:local="clr-namespace:Odot.Views"
+                         mc:Ignorable="d"
+                         xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+                         ToolTip="Export.."
+                         VerticalContentAlignment="Center"
+                         Orientation="Vertical"
+                         Content="Export"
+                         ArrowVisibility="Visible"
+                         BorderBrush="{x:Null}"
+                         FontWeight="Bold"
+                         Width="65"
+                         Height="75">
+
+    <Controls:DropDownButton.IconTemplate>
+        <DataTemplate>
+            <local:IconContentControl DataPath="{StaticResource ExportIconPath}"/>
+        </DataTemplate>
+    </Controls:DropDownButton.IconTemplate>
+    
+</Controls:DropDownButton>

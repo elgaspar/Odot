@@ -1,10 +1,23 @@
-﻿using Odot.ViewModels;
+﻿using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
+using Odot.ViewModels;
+using PdfSharp.Pdf;
+using System;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Documents;
+using System.Windows.Markup;
+using System.Windows.Threading;
 
 namespace Odot.Views.Assist
 {
     public static class Actions
     {
+        private static readonly string EXPORT_MSG = "Exporting tasks.";
         private static MainViewModel mainVM { get { return (MainViewModel)Application.Current.MainWindow.DataContext; } }
         private static MainView mainWin { get { return (MainView)Application.Current.MainWindow; } }
 
@@ -55,7 +68,7 @@ namespace Odot.Views.Assist
 
         public static bool FileSaveAs()
         {
-            string filepath = Dialogs.BrowseFileToSave();
+            string filepath = Dialogs.BrowseFileToSave(Dialogs.XML_FILE_EXTENSION, Dialogs.XML_FILE_FILTER);
             if (filepath != null)
             {
                 bool succeed = mainVM.Save(filepath);
@@ -76,10 +89,50 @@ namespace Odot.Views.Assist
         public static void PrintIncomplete()
         {
             PrintDocument printDoc = new PrintDocument(true);
-            Dialogs.PrintDialog(printDoc.CreateWithIncompleteOnly(mainVM.File.Tasks));
+            Dialogs.PrintDialog(printDoc.Create(getIncompleteOnly(mainVM.File.Tasks)));
         }
 
+        public static async Task PDFExportAll()
+        {
+            var tokenSource = new CancellationTokenSource();
+            var token = tokenSource.Token;
+            EventHandler canceledHandler = delegate { tokenSource.Cancel(); };
+            string filepath = Dialogs.BrowseFileToSave(Dialogs.PDF_FILE_EXTENSION, Dialogs.PDF_FILE_FILTER);
+            if (!string.IsNullOrEmpty(filepath))
+            {
+                var tasks = mainVM.File.Tasks;
+                var controller = await ((MetroWindow)mainWin).ShowProgressAsync(Dialogs.PROGRESS_TITLE, EXPORT_MSG, true);
+                controller.Canceled += canceledHandler;
+                var result = await Task.Run(() => exportPdf(tasks, filepath, token));
+                await controller.CloseAsync();
+                if (controller.IsCanceled)
+                    result = false;
 
+                controller.Canceled -= canceledHandler;
+                handleSaveResult(result);
+            }
+        }
+
+        public static async Task PDFExportIncomplete()
+        {
+            var tokenSource = new CancellationTokenSource();
+            var token = tokenSource.Token;
+            EventHandler canceledHandler = delegate { tokenSource.Cancel(); };
+            string filepath = Dialogs.BrowseFileToSave(Dialogs.PDF_FILE_EXTENSION, Dialogs.PDF_FILE_FILTER);
+            if (!string.IsNullOrEmpty(filepath))
+            {
+                var tasks = mainVM.File.Tasks;
+                var controller = await ((MetroWindow)mainWin).ShowProgressAsync(Dialogs.PROGRESS_TITLE, EXPORT_MSG, true);
+                controller.Canceled += canceledHandler;
+                var result = await Task.Run(() => exportPdf(getIncompleteOnly(tasks), filepath, token));
+                await controller.CloseAsync();
+                if (controller.IsCanceled)
+                    result = false;
+
+                controller.Canceled -= canceledHandler;
+                handleSaveResult(result);
+            }
+        }
 
         public static void Settings()
         {
@@ -220,5 +273,46 @@ namespace Odot.Views.Assist
             return true;
         }
 
+        private static ObservableCollection<Models.Task> getIncompleteOnly(ObservableCollection<Models.Task> tasks)
+        {
+            ObservableCollection<Models.Task> incompleteTasks = new ObservableCollection<Models.Task>();
+            foreach (Models.Task task in tasks)
+            {
+                ObservableCollection<Models.Task> children = getIncompleteOnly(task.Children);
+                if (task.IsCompleted == false || children.Count != 0)
+                {
+                    Models.Task t = task.Clone();
+                    foreach (Models.Task child in children)
+                        t.AddChild(child);
+                    incompleteTasks.Add(t);
+                }
+            }
+            return incompleteTasks;
+        }
+
+        private static bool exportPdf(ObservableCollection<Models.Task> tasks, string filepath, CancellationToken token)
+        {
+            bool succeed = false;
+            if (filepath != null)
+            {
+                succeed = true;
+
+                try
+                {
+                    PdfCreator creator = new PdfCreator();
+                    PdfDocument document = creator.Create(tasks, token);
+                    token.ThrowIfCancellationRequested();
+                    document.Save(filepath);
+                    Process.Start(filepath);
+                }
+                catch (System.Exception ex)
+                {
+                    // failed to save pdf
+                    succeed = false;
+                }
+            }
+
+            return succeed;
+        }
     }
 }

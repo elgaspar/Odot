@@ -51,6 +51,15 @@
                     </Controls:DropDownButton.Items>
                 </local:PrintButton>
 
+                <local:ExportButton Margin="0,0,0,-12">
+                    <Controls:DropDownButton.Items>
+                        <MenuItem Header="PDF - All Tasks"
+                                  Click="MenuItem_Click_PDF_ExportAll"/>
+                        <MenuItem Header="PDF - Incomplete Tasks"
+                                  Click="MenuItem_Click_PDF_ExportIncomplete"/>
+                    </Controls:DropDownButton.Items>
+                </local:ExportButton>
+
             </ToolBar>
         </ToolBarTray>
 

@@ -54,33 +54,6 @@ namespace Odot.Views.Assist
             return doc;
         }
 
-        public FlowDocument CreateWithIncompleteOnly(ObservableCollection<Models.Task> tasks)
-        {
-            ObservableCollection<Models.Task> incompleteTasks = getIncompleteOnly(tasks);
-            return Create(incompleteTasks);
-        }
-
-
-
-
-
-        private ObservableCollection<Models.Task> getIncompleteOnly(ObservableCollection<Models.Task> tasks)
-        {
-            ObservableCollection<Models.Task> incompleteTasks = new ObservableCollection<Models.Task>();
-            foreach (Models.Task task in tasks)
-            {
-                ObservableCollection<Models.Task> children = getIncompleteOnly(task.Children);
-                if (task.IsCompleted == false || children.Count != 0)
-                {
-                    Models.Task t = task.Clone();
-                    foreach (Models.Task child in children)
-                        t.AddChild(child);
-                    incompleteTasks.Add(t);
-                }
-            }
-            return incompleteTasks;
-        }
-
         private Table getTable(ObservableCollection<Models.Task> tasks)
         {
             Table table = new Table
