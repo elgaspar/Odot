@@ -7,6 +7,7 @@ Odot (inverse of "To Do") is a task management tool. It allows the organization 
 
 ##### Features
 * It supports printing the tasks.
+* It supports exporting to PDF.
 
 
 ##### Screenshots
