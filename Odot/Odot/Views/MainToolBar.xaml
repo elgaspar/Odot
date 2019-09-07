@@ -24,21 +24,25 @@
                 <local:ButtonIconText ToolTip="New File.."
                                       IconPath="{StaticResource FileNewIconPath}"
                                       Text="New"
+                                      AltText="_New"
                                       Click="Button_Click_New"/>
 
                 <local:ButtonIconText ToolTip="Open File.."
                                       IconPath="{StaticResource FileOpenIconPath}"
                                       Text="Open"
+                                      AltText="_Open"
                                       Click="Button_Click_Open"/>
 
                 <local:ButtonIconText ToolTip="Save File.."
                                       IconPath="{StaticResource FileSaveIconPath}"
                                       Text="Save"
+                                      AltText="_Save"
                                       Click="Button_Click_Save"/>
 
                 <local:ButtonIconText ToolTip="Save File As.."
                                       IconPath="{StaticResource FileSaveAsIconPath}"
                                       Text="Save As"
+                                      AltText="Save _As"
                                       Click="Button_Click_SaveAs"/>
 
 
@@ -71,11 +75,13 @@
                 <local:ButtonIconText ToolTip="Settings.."
                                       IconPath="{StaticResource SettingsIconPath}"
                                       Text="Settings"
+                                      AltText="Settin_gs"
                                       Click="Button_Click_Settings"/>
 
                 <local:ButtonIconText ToolTip="About.."
                                       IconPath="{StaticResource AboutIconPath}"
                                       Text="About"
+                                      AltText="A_bout"
                                       Click="Button_Click_About"/>
                 
             </ToolBar>

@@ -35,5 +35,16 @@ namespace Odot.Views
         public static readonly DependencyProperty TextProperty =
             DependencyProperty.Register("Text", typeof(string), typeof(ButtonIconText), new PropertyMetadata(string.Empty));
 
+
+        public string AltText
+        {
+            get { return (string)GetValue(AltTextProperty); }
+            set { SetValue(AltTextProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for AltText.  
+        public static readonly DependencyProperty AltTextProperty =
+            DependencyProperty.Register("AltText", typeof(string), typeof(ButtonIconText), new PropertyMetadata(string.Empty));
+
     }
 }

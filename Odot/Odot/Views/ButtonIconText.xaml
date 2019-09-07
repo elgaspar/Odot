@@ -16,6 +16,7 @@
         <TextBlock Text="{Binding ElementName=button, Path=Text}" 
                    FontWeight="Bold"
                    HorizontalAlignment="Center"/>
+        <AccessText Text="{Binding ElementName=button, Path=AltText}"/>
     </StackPanel>
     
 </Button>
