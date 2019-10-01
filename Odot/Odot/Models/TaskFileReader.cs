@@ -104,13 +104,8 @@ namespace Odot.Models
 
         private static Category readCategory(XmlReader reader)
         {
-            if (reader.Name == "Category")
+            if (reader.Name == "Category" && !reader.IsEmptyElement)
             {
-                if (reader.IsEmptyElement)
-                {
-                    return null;
-                }
-
                 reader.Read();
                 reader.Read();
                 string name = reader.ReadContentAsString();
@@ -131,9 +126,8 @@ namespace Odot.Models
 
         private static void addCategory(Category category)
         {
-            if ((category == null) || containsCategory(category))
-                return;
-            taskFile.Categories.Add(category);
+            if ((category != null) || !containsCategory(category))
+                taskFile.Categories.Add(category);
         }
 
         private static bool containsCategory(Category category)
