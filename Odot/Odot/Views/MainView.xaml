@@ -1,50 +1,63 @@
-﻿<Controls:MetroWindow x:Class="Odot.Views.MainView"
-                      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                      xmlns:local="clr-namespace:Odot.Views"
-                      mc:Ignorable="d"
-                      xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-                      Title="Odot"
-                      TitleCaps="False"
-                      Height="500" Width="700"
-                      MinWidth="550"
-                      SaveWindowPosition="True"
-                      WindowStartupLocation="CenterScreen"
-                      Loaded="MetroWindow_Loaded"
-                      Closing="MetroWindow_Closing">
+﻿<Controls:MetroWindow
+    x:Class="Odot.Views.MainView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Odot.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Odot"
+    Width="700"
+    Height="500"
+    MinWidth="550"
+    Closing="MetroWindow_Closing"
+    Loaded="MetroWindow_Loaded"
+    SaveWindowPosition="True"
+    TitleCaps="False"
+    WindowStartupLocation="CenterScreen"
+    mc:Ignorable="d">
+
+    <Window.InputBindings>
+        <KeyBinding Command="{Binding SaveCommand}" Gesture="Ctrl+S" />
+        <KeyBinding Command="{Binding SaveAsCommand}" Gesture="Ctrl+Shift+S" />
+        <KeyBinding Command="{Binding NewCommand}" Gesture="Ctrl+N" />
+        <KeyBinding Command="{Binding PrintIncompleteCommand}" Gesture="Ctrl+P" />
+        <KeyBinding Command="{Binding PrintAllCommand}" Gesture="Ctrl+Shift+P" />
+        <KeyBinding Command="{Binding OpenCommand}" Gesture="Ctrl+O" />
+        <KeyBinding Command="{Binding ExportIncompleteCommand}" Gesture="Ctrl+X" />
+        <KeyBinding Command="{Binding ExportAllCommand}" Gesture="Ctrl+Shift+X" />
+        <KeyBinding Command="{Binding AddTaskCommand}" Gesture="Alt+T" />
+        <KeyBinding Command="{Binding AddCategoryCommand}" Gesture="Alt+C" />
+    </Window.InputBindings>
 
     <Controls:MetroWindow.IconTemplate>
         <DataTemplate>
-            <Image Source="{StaticResource MainIconPath}"
-                   Margin="3"/>
+            <Image Margin="3" Source="{StaticResource MainIconPath}" />
         </DataTemplate>
     </Controls:MetroWindow.IconTemplate>
 
 
     <DockPanel>
 
-        <local:MainToolBar DockPanel.Dock="Top"/>
+        <local:MainToolBar DockPanel.Dock="Top" />
 
-        <local:MyStatusBar DockPanel.Dock="Bottom"
-                           x:Name="statusBar"
-                           VerticalAlignment="Bottom"/>
+        <local:MyStatusBar
+            x:Name="statusBar"
+            VerticalAlignment="Bottom"
+            DockPanel.Dock="Bottom" />
 
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="3*" MinWidth="370"/>
-                <ColumnDefinition Width="3"/>
-                <ColumnDefinition Width="*" MinWidth="150"/>
+                <ColumnDefinition Width="3*" MinWidth="370" />
+                <ColumnDefinition Width="3" />
+                <ColumnDefinition Width="*" MinWidth="150" />
             </Grid.ColumnDefinitions>
 
-            <local:TaskView Grid.Column="0"
-                            DataContext="{Binding TaskVM}"/>
+            <local:TaskView Grid.Column="0" DataContext="{Binding TaskVM}" />
 
-            <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch"  />
+            <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" />
 
-            <local:CategoryView Grid.Column="2"
-                              DataContext="{Binding CategoryVM}"/>
+            <local:CategoryView Grid.Column="2" DataContext="{Binding CategoryVM}" />
 
         </Grid>
 

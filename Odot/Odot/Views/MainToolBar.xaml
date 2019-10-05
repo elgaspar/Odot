@@ -1,83 +1,86 @@
-﻿<UserControl x:Class="Odot.Views.MainToolBar"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Odot.Views"
-             mc:Ignorable="d"
-             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro">
+﻿<UserControl
+    x:Class="Odot.Views.MainToolBar"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Odot.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
 
     <UserControl.Resources>
         <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatButton.xaml" />
     </UserControl.Resources>
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <ToolBarTray Grid.Column="0"
-                     IsLocked="True">
+        <ToolBarTray Grid.Column="0" IsLocked="True">
             <ToolBar>
 
-                <local:ButtonIconText ToolTip="New File.."
-                                      IconPath="{StaticResource FileNewIconPath}"
-                                      Text="New"
-                                      Click="Button_Click_New"/>
+                <local:ButtonIconText
+                    Click="Button_Click_New"
+                    IconPath="{StaticResource FileNewIconPath}"
+                    Text="New"
+                    ToolTip="New File.." />
 
-                <local:ButtonIconText ToolTip="Open File.."
-                                      IconPath="{StaticResource FileOpenIconPath}"
-                                      Text="Open"
-                                      Click="Button_Click_Open"/>
+                <local:ButtonIconText
+                    Click="Button_Click_Open"
+                    IconPath="{StaticResource FileOpenIconPath}"
+                    Text="Open"
+                    ToolTip="Open File.." />
 
-                <local:ButtonIconText ToolTip="Save File.."
-                                      IconPath="{StaticResource FileSaveIconPath}"
-                                      Text="Save"
-                                      Click="Button_Click_Save"/>
+                <local:ButtonIconText
+                    Click="Button_Click_Save"
+                    IconPath="{StaticResource FileSaveIconPath}"
+                    Text="Save"
+                    ToolTip="Save File.." />
 
-                <local:ButtonIconText ToolTip="Save File As.."
-                                      IconPath="{StaticResource FileSaveAsIconPath}"
-                                      Text="Save As"
-                                      Click="Button_Click_SaveAs"/>
+                <local:ButtonIconText
+                    Click="Button_Click_SaveAs"
+                    IconPath="{StaticResource FileSaveAsIconPath}"
+                    Text="Save As"
+                    ToolTip="Save File As.." />
 
 
                 <local:PrintButton Margin="0,0,0,-12">
                     <Controls:DropDownButton.Items>
-                        <MenuItem Header="All Tasks"
-                                  Click="MenuItem_Click_PrintAll"/>
-                        <MenuItem Header="Incomplete Tasks"
-                                  Click="MenuItem_Click_PrintIncomplete"/>
+                        <MenuItem Click="MenuItem_Click_PrintAll" Header="All Tasks" />
+                        <MenuItem Click="MenuItem_Click_PrintIncomplete" Header="Incomplete Tasks" />
                     </Controls:DropDownButton.Items>
                 </local:PrintButton>
 
                 <local:ExportButton Margin="0,0,0,-12">
                     <Controls:DropDownButton.Items>
-                        <MenuItem Header="PDF - All Tasks"
-                                  Click="MenuItem_Click_PDF_ExportAll"/>
-                        <MenuItem Header="PDF - Incomplete Tasks"
-                                  Click="MenuItem_Click_PDF_ExportIncomplete"/>
+                        <MenuItem Click="MenuItem_Click_PDF_ExportAll" Header="PDF - All Tasks" />
+                        <MenuItem Click="MenuItem_Click_PDF_ExportIncomplete" Header="PDF - Incomplete Tasks" />
                     </Controls:DropDownButton.Items>
                 </local:ExportButton>
 
             </ToolBar>
         </ToolBarTray>
 
-        <ToolBarTray Grid.Column="1"
-                     IsLocked="True"
-                     Margin="50,0,0,0">
+        <ToolBarTray
+            Grid.Column="1"
+            Margin="50,0,0,0"
+            IsLocked="True">
             <ToolBar>
 
-                <local:ButtonIconText ToolTip="Settings.."
-                                      IconPath="{StaticResource SettingsIconPath}"
-                                      Text="Settings"
-                                      Click="Button_Click_Settings"/>
+                <local:ButtonIconText
+                    Click="Button_Click_Settings"
+                    IconPath="{StaticResource SettingsIconPath}"
+                    Text="Settings"
+                    ToolTip="Settings.." />
 
-                <local:ButtonIconText ToolTip="About.."
-                                      IconPath="{StaticResource AboutIconPath}"
-                                      Text="About"
-                                      Click="Button_Click_About"/>
-                
+                <local:ButtonIconText
+                    Click="Button_Click_About"
+                    IconPath="{StaticResource AboutIconPath}"
+                    Text="About"
+                    ToolTip="About.." />
+
             </ToolBar>
         </ToolBarTray>
 

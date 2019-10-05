@@ -1,5 +1,8 @@
 ﻿using Caliburn.Micro;
 using Odot.Models;
+using Odot.Views.Assist;
+using System;
+using System.Windows.Input;
 
 namespace Odot.ViewModels
 {
@@ -23,8 +26,19 @@ namespace Odot.ViewModels
             CategoryVM = new CategoryViewModel(this);
 
             AnyChangeHappened = false;
+
         }
 
+        private ICommand PrintAllCommand { get; } = new RelayCommand((a) => Actions.PrintAll());
+        public ICommand PrintCommand { get; } = new RelayCommand((a) => Actions.PrintIncomplete());
+        public ICommand SaveCommand { get; } = new RelayCommand((a) => Actions.FileSave());
+        public ICommand SaveAsCommand { get; } = new RelayCommand((a) => Actions.FileSaveAs());
+        public ICommand NewCommand { get; } = new RelayCommand((a) => Actions.FileNew());
+        public ICommand ExportIncompleteCommand { get; } = new RelayCommand(async (a) => await Actions.PDFExportIncomplete());
+        public ICommand ExportAllCommand { get; } = new RelayCommand(async (a) => await Actions.PDFExportAll());
+        public ICommand OpenCommand { get; } = new RelayCommand((a) => Actions.FileOpen());
+        public ICommand AddTaskCommand { get; } = new RelayCommand((a) => Actions.TaskAdd());
+        public ICommand AddCategoryCommand { get; } = new RelayCommand((a) => Actions.CategoryAdd());
 
 
         public void New()

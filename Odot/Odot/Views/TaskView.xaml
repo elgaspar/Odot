@@ -1,49 +1,65 @@
-﻿<UserControl x:Class="Odot.Views.TaskView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Odot.Views"
-             xmlns:Converters="clr-namespace:Odot.Views.Assist.Converters"
-             mc:Ignorable="d"
-             xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
-             xmlns:Cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro.Platform"
-             xmlns:DragAndDrop="urn:gong-wpf-dragdrop">
+﻿<UserControl
+    x:Class="Odot.Views.TaskView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Cal="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro.Platform"
+    xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:Converters="clr-namespace:Odot.Views.Assist.Converters"
+    xmlns:DragAndDrop="urn:gong-wpf-dragdrop"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Odot.Views"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <UserControl.InputBindings>
+        <KeyBinding Key="Delete" Command="{Binding DeleteCommand}" />
+        <KeyBinding Command="{Binding EditCommand}" Gesture="Ctrl+E" />
+        <KeyBinding
+            Key="OemMinus"
+            Command="{Binding MarkIncompleteCommand}"
+            Modifiers="Ctrl" />
+        <KeyBinding
+            Key="OemPlus"
+            Command="{Binding MarkCompleteCommand}"
+            Modifiers="Ctrl" />
+    </UserControl.InputBindings>
 
     <Grid Margin="5">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0"
-                   Text="Tasks"
-                   FontWeight="Bold"
-                   FontSize="20"
-                   Margin="5,10,10,10"/>
+        <TextBlock
+            Grid.Row="0"
+            Margin="5,10,10,10"
+            FontSize="20"
+            FontWeight="Bold"
+            Text="Tasks" />
 
-        <local:TaskToolbar Grid.Row="1"
-                           x:Name="taskToolBar"/>
+        <local:TaskToolbar x:Name="taskToolBar" Grid.Row="1" />
 
-        <TreeView Grid.Row="2"
-                  x:Name="tree"
-                  ItemsSource="{Binding Tasks}"
-                  SelectedItemChanged="tree_SelectedItemChanged"
-                  MouseDown="tree_MouseDown"
-                  PreviewMouseDoubleClick="tree_MouseDoubleClick"
-                  DragAndDrop:DragDrop.IsDragSource="True"
-                  DragAndDrop:DragDrop.IsDropTarget="True"
-                  DragAndDrop:DragDrop.DropHandler="{Binding}">
+        <TreeView
+            x:Name="tree"
+            Grid.Row="2"
+            DragAndDrop:DragDrop.DropHandler="{Binding}"
+            DragAndDrop:DragDrop.IsDragSource="True"
+            DragAndDrop:DragDrop.IsDropTarget="True"
+            ItemsSource="{Binding Tasks}"
+            MouseDown="tree_MouseDown"
+            PreviewMouseDoubleClick="tree_MouseDoubleClick"
+            SelectedItemChanged="tree_SelectedItemChanged">
 
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Children}">
                     <StackPanel Orientation="Horizontal">
-                        <local:IconContentControl VerticalAlignment="Center"
-                                                  IconWidth="18"
-                                                  IconHeight="18"
-                                                  ForegroundColor="{Binding Category.Color, Converter={Converters:EnumToColorConverter}}"
-                                                  Margin="0,0,3,0">
+                        <local:IconContentControl
+                            Margin="0,0,3,0"
+                            VerticalAlignment="Center"
+                            ForegroundColor="{Binding Category.Color, Converter={Converters:EnumToColorConverter}}"
+                            IconHeight="18"
+                            IconWidth="18">
                             <ContentControl.Style>
                                 <Style TargetType="{x:Type local:IconContentControl}">
                                     <Style.Triggers>
@@ -58,76 +74,86 @@
                             </ContentControl.Style>
                         </local:IconContentControl>
 
-                        <TextBlock x:Name="textBlock"
-                                   Text="{Binding Name}"
-                                   VerticalAlignment="Center" />
+                        <TextBlock
+                            x:Name="textBlock"
+                            VerticalAlignment="Center"
+                            Text="{Binding Name}" />
                     </StackPanel>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
 
             <TreeView.ContextMenu>
                 <ContextMenu x:Name="contextMenu">
-                    <MenuItem Header="Mark As Complete"
-                              IsEnabled="{Binding IsSelectedTaskIncomplete}"
-                              Cal:Message.Attach="MarkAsCompleted">
+                    <MenuItem
+                        Cal:Message.Attach="MarkAsCompleted"
+                        Header="Mark As Complete"
+                        IsEnabled="{Binding IsSelectedTaskIncomplete}">
                         <MenuItem.Icon>
-                            <local:IconContentControl DataPath="{StaticResource TaskCompletedIconPath}"
-                                                      IconWidth="20"
-                                                      IconHeight="20"/>
+                            <local:IconContentControl
+                                DataPath="{StaticResource TaskCompletedIconPath}"
+                                IconHeight="20"
+                                IconWidth="20" />
                         </MenuItem.Icon>
                     </MenuItem>
-                    <MenuItem Header="Mark As Incomplete"
-                              IsEnabled="{Binding IsSelectedTaskCompleted}"
-                              Cal:Message.Attach="MarkAsIncomplete">
+                    <MenuItem
+                        Cal:Message.Attach="MarkAsIncomplete"
+                        Header="Mark As Incomplete"
+                        IsEnabled="{Binding IsSelectedTaskCompleted}">
                         <MenuItem.Icon>
-                            <local:IconContentControl DataPath="{StaticResource TaskIncompleteIconPath}"
-                                                      IconWidth="20"
-                                                      IconHeight="20"/>
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <Separator />
-                    <MenuItem Header="Add Task.."
-                              Click="Button_Click_Add">
-                        <MenuItem.Icon>
-                            <local:IconContentControl DataPath="{StaticResource TaskAddIconPath}"
-                                                      IconWidth="20"
-                                                      IconHeight="20"/>
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Header="Edit Task.."
-                              IsEnabled="{Binding IsTaskSelected}"
-                              Click="Button_Click_Edit">
-                        <MenuItem.Icon>
-                            <local:IconContentControl DataPath="{StaticResource TaskEditIconPath}"
-                                                      IconWidth="20"
-                                                      IconHeight="20"/>
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Header="Remove Task.."
-                              IsEnabled="{Binding IsTaskSelected}"
-                              Click="Button_Click_Remove">
-                        <MenuItem.Icon>
-                            <local:IconContentControl DataPath="{StaticResource TaskRemoveIconPath}"
-                                                      IconWidth="20"
-                                                      IconHeight="20"/>
+                            <local:IconContentControl
+                                DataPath="{StaticResource TaskIncompleteIconPath}"
+                                IconHeight="20"
+                                IconWidth="20" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <Separator />
-                    <MenuItem Header="Clear Selection"
-                              IsEnabled="{Binding IsTaskSelected}"
-                              Click="ClearSelection_Click"/>
+                    <MenuItem Click="Button_Click_Add" Header="Add Task..">
+                        <MenuItem.Icon>
+                            <local:IconContentControl
+                                DataPath="{StaticResource TaskAddIconPath}"
+                                IconHeight="20"
+                                IconWidth="20" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem
+                        Click="Button_Click_Edit"
+                        Header="Edit Task.."
+                        IsEnabled="{Binding IsTaskSelected}">
+                        <MenuItem.Icon>
+                            <local:IconContentControl
+                                DataPath="{StaticResource TaskEditIconPath}"
+                                IconHeight="20"
+                                IconWidth="20" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem
+                        Click="Button_Click_Remove"
+                        Header="Remove Task.."
+                        IsEnabled="{Binding IsTaskSelected}">
+                        <MenuItem.Icon>
+                            <local:IconContentControl
+                                DataPath="{StaticResource TaskRemoveIconPath}"
+                                IconHeight="20"
+                                IconWidth="20" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <Separator />
+                    <MenuItem
+                        Click="ClearSelection_Click"
+                        Header="Clear Selection"
+                        IsEnabled="{Binding IsTaskSelected}" />
                 </ContextMenu>
             </TreeView.ContextMenu>
 
             <TreeView.Resources>
-                <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource MetroTreeViewItem}">
-                    <Setter Property="IsExpanded" Value="True"/>
-                    <Setter Property="Margin" Value="10,0,0,0"/>
+                <Style BasedOn="{StaticResource MetroTreeViewItem}" TargetType="{x:Type TreeViewItem}">
+                    <Setter Property="IsExpanded" Value="True" />
+                    <Setter Property="Margin" Value="10,0,0,0" />
                     <Style.Triggers>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding ElementName=taskToolBar, Path=ShowIncompleteTaskOnly}" Value="True"/>
-                                <Condition Binding="{Binding IsCompleted}" Value="True"/>
+                                <Condition Binding="{Binding ElementName=taskToolBar, Path=ShowIncompleteTaskOnly}" Value="True" />
+                                <Condition Binding="{Binding IsCompleted}" Value="True" />
                             </MultiDataTrigger.Conditions>
                             <MultiDataTrigger.Setters>
                                 <Setter Property="Visibility" Value="Collapsed" />
