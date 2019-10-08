@@ -1,6 +1,8 @@
 ﻿using GongSolutions.Wpf.DragDrop;
 using Odot.Models;
+using Odot.Views.Assist;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace Odot.ViewModels
 {
@@ -8,6 +10,8 @@ namespace Odot.ViewModels
     {
         public TaskViewModel(MainViewModel parent) : base(parent)
         {
+            MarkCompleteCommand = new RelayCommand((a) => MarkAsCompleted(), (a) => SelectedTask != null);
+            MarkIncompleteCommand = new RelayCommand((a) => MarkAsIncomplete(), (a) => SelectedTask != null);
         }
 
         public ObservableCollection<Models.Task> Tasks { get { return ParentVM.File.Tasks; } } 
@@ -34,8 +38,10 @@ namespace Odot.ViewModels
 
         public bool IsSelectedTaskIncomplete { get { return IsTaskSelected && !SelectedTask.IsCompleted; } }
 
-
-
+        public ICommand EditCommand { get; } = new RelayCommand((a) => Actions.TaskEdit());
+        public ICommand DeleteCommand { get; } = new RelayCommand((a) => Actions.TaskRemove());
+        public ICommand MarkCompleteCommand { get; }
+        public ICommand MarkIncompleteCommand { get; }
         public void Add(string name, Category category)
         {
             Models.Task newTask = new Models.Task(name, category);

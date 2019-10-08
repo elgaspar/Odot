@@ -102,6 +102,7 @@
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Colors.cs" />
     <Compile Include="Models\NotifyBase.cs" />
+    <Compile Include="Models\RelayCommand.cs" />
     <Compile Include="Models\Task.cs" />
     <Compile Include="Models\TaskFile.cs" />
     <Compile Include="Models\TaskFileReader.cs" />

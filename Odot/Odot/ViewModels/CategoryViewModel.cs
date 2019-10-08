@@ -1,7 +1,9 @@
 ﻿using Odot.Models;
+using Odot.Views.Assist;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace Odot.ViewModels
 {
@@ -40,7 +42,8 @@ namespace Odot.ViewModels
 
         public bool IsCategorySelected { get { return SelectedCategory != null; } }
 
-
+        public ICommand DeleteCommand { get; } = new RelayCommand((a) => Actions.CategoryRemove());
+        public ICommand EditCommand { get; } = new RelayCommand((a) => Actions.CategoryEdit());
 
         public void Add(string name, Colors color)
         {
